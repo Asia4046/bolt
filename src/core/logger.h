@@ -28,4 +28,14 @@ void shutdown_logging();
 
 KAPI void log_output(log_level level, const char* message, ...);
 
-#define KFATAL(message, ...) log_output(LOG_LEVEL_FATAL, message, #__VA_ARGS__);
+#define KFATAL(message, ...) log_output(LOG_LEVEL_FATAL, message, ##__VA_ARGS__);
+
+#if KERROR
+#define KERROR(message, ...) log_output(LOG_LEVEL_ERROR, message, ##__VA_ARGS__);
+#endif
+
+#if LOG_WARN_ENABLED == 1
+#define KWARN(message, ...) log_output(LOG_LEVEL_WARN, message, ##__VA_ARGS__);
+#else
+#define KWARN(message, ...)
+#endif
